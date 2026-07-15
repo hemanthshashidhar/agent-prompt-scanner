@@ -1,8 +1,11 @@
 from pathlib import Path
 
+from agent.core.prompt_detector import PromptDetector
+
 
 class FileDiscovery:
-    PROMPT_PATTERNS = [
+
+    PATTERNS = [
         "*.md",
         "*.txt",
         "*.prompt",
@@ -10,11 +13,19 @@ class FileDiscovery:
 
     def __init__(self, project_path: Path):
         self.project_path = project_path
+        self.detector = PromptDetector()
 
     def discover(self) -> list[Path]:
-        files: list[Path] = []
 
-        for pattern in self.PROMPT_PATTERNS:
+        files = []
+
+        for pattern in self.PATTERNS:
             files.extend(self.project_path.rglob(pattern))
 
-        return sorted(set(files))
+        return sorted(
+            {
+                file
+                for file in files
+                if self.detector.is_prompt(file)
+            }
+        )
