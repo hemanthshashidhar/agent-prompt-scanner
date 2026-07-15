@@ -5,12 +5,9 @@ from rich.console import Console
 
 from agent.scanner.prompt import PromptScanner
 
-app = typer.Typer()
-
 console = Console()
 
 
-@app.callback(invoke_without_command=True)
 def scan(
     path: Path = typer.Argument(
         Path("."),
@@ -18,15 +15,13 @@ def scan(
         file_okay=False,
         dir_okay=True,
         resolve_path=True,
+        help="Path to agent project",
     ),
 ):
-
     scanner = PromptScanner()
-
     result = scanner.scan(path)
 
     console.rule("[bold cyan]Agent Verify[/bold cyan]")
-
     console.print(f"Scanner : {scanner.name}")
     console.print(f"Project : {path}")
     console.print(f"Findings: {len(result.findings)}")
