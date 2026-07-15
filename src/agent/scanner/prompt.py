@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agent.core.file_discovery import FileDiscovery
+from agent.adapters.file_adapter import FileAdapter
 from agent.scanner.base import BaseScanner
 from agent.scanner.result import ScanResult
 
@@ -11,17 +11,17 @@ class PromptScanner(BaseScanner):
 
     def scan(self, project_path: Path) -> ScanResult:
 
-        discovery = FileDiscovery(project_path)
+        adapter = FileAdapter()
 
-        files = discovery.discover()
+        prompts = adapter.extract(project_path)
 
         print()
 
-        print("Prompt Files")
+        print("Detected Prompts")
 
-        print("------------")
+        print("----------------")
 
-        for file in files:
-            print(file.relative_to(project_path))
+        for prompt in prompts:
+            print(prompt.source.relative_to(project_path))
 
         return ScanResult()
