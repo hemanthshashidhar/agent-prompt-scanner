@@ -7,7 +7,14 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 
-app.command("scan")(scan)
+
+@app.callback()
+def main():
+    """Agent CLI."""
+    pass
+
+
+app.command(name="scan")(scan)
 
 if __name__ == "__main__":
     app()

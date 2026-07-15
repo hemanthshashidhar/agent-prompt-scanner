@@ -6,6 +6,7 @@ src/agent/cli/__init__.py
 src/agent/cli/main.py
 src/agent/cli/scan.py
 src/agent/core/__init__.py
+src/agent/core/project_loader.py
 src/agent/models/__init__.py
 src/agent/models/finding.py
 src/agent/models/report.py
