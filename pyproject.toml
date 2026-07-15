@@ -18,3 +18,13 @@ dev = [
 ]
 [project.scripts]
 agent = "agent.cli.main:app"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
