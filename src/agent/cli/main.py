@@ -1,20 +1,11 @@
 import typer
 
-from agent.cli.scan import scan
+from agent.cli.scan import app as scan_app
 
-app = typer.Typer(
-    help="AI Agent Verification Platform",
-    no_args_is_help=True,
-)
+app = typer.Typer()
 
+app.add_typer(scan_app, name="")
 
-@app.callback()
-def main():
-    """Agent CLI."""
-    pass
-
-
-app.command(name="scan")(scan)
 
 if __name__ == "__main__":
     app()

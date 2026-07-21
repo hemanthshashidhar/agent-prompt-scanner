@@ -1,27 +1,44 @@
 from pathlib import Path
 
 import typer
-from rich.console import Console
+from rich import print
 
+from agent.core.project_loader import ProjectLoader
 from agent.scanner.prompt import PromptScanner
 
-console = Console()
+app = typer.Typer()
 
 
-def scan(
-    path: Path = typer.Argument(
-        Path("."),
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-        resolve_path=True,
-        help="Path to agent project",
-    ),
-):
+@app.command()
+def scan(path: str = typer.Argument(..., help="Path to project")):
+    """Scan a project for prompt security issues."""
+
+    loader = ProjectLoader(path)
+
+    if not loader.exists():
+        print(f"[red]Error:[/red] Project '{path}' does not exist.")
+        raise typer.Exit(code=1)
+
+    project_path: Path = loader.root()
+
     scanner = PromptScanner()
-    result = scanner.scan(path)
+    result = scanner.scan(project_path)
 
-    console.rule("[bold cyan]Agent Verify[/bold cyan]")
-    console.print(f"Scanner : {scanner.name}")
-    console.print(f"Project : {path}")
-    console.print(f"Findings: {len(result.findings)}")
+    print()
+    print("[bold cyan]Agent Verify[/bold cyan]")
+    print("[bold]==============================[/bold]")
+
+    if not result.findings:
+        print("[green]✓ No findings found.[/green]")
+        return
+
+    print(f"[bold red]Findings ({len(result.findings)})[/bold red]")
+    print()
+
+    for finding in result.findings:
+        print(f"[bold]{finding.id}[/bold] [{finding.severity.value}]")
+        print(f"Title          : {finding.title}")
+        print(f"File           : {finding.file}")
+        print(f"Description    : {finding.description}")
+        print(f"Recommendation : {finding.recommendation}")
+        print()
