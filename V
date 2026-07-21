@@ -1,0 +1,12 @@
+from pydantic import BaseModel
+
+from agent.models.severity import Severity
+
+
+class Rule(BaseModel):
+    id: str
+    title: str
+    description: str
+    severity: Severity
+    recommendation: str
+    category: str

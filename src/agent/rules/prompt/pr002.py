@@ -25,11 +25,11 @@ class PR002(BaseRule):
             if pattern in content:
                 findings.append(
                     Finding(
-                        id=self.id,
-                        title=self.title,
+                        id=self.rule.id,
+                        title=self.rule.title,
                         severity=Severity.MEDIUM,
                         description=f'Found "{pattern}"',
-                        recommendation="Review the prompt for role or instruction override attempts.",
+                        recommendation=self.rule.recommendation,
                         file=prompt.source,
                     )
                 )

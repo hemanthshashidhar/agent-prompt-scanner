@@ -23,11 +23,11 @@ class PR001(BaseRule):
             if pattern in content:
                 findings.append(
                     Finding(
-                        id=self.id,
-                        title=self.title,
-                        severity=Severity.HIGH,
+                        id=self.rule.id,
+                        title=self.rule.title,
+                        severity=self.rule.severity,
                         description=f'Found "{pattern}"',
-                        recommendation="Remove instruction override.",
+                        recommendation=self.rule.recommendation,
                         file=prompt.source,
                     )
                 )
