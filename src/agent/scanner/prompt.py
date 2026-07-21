@@ -2,7 +2,7 @@ from pathlib import Path
 
 from agent.adapters.file_adapter import FileAdapter
 from agent.core.rule_engine import RuleEngine
-from agent.rules.prompt.pr001 import PR001
+from agent.rules.prompt.registry import get_prompt_rules
 from agent.scanner.base import BaseScanner
 from agent.scanner.result import ScanResult
 
@@ -17,9 +17,7 @@ class PromptScanner(BaseScanner):
         prompts = adapter.extract(project_path)
 
         engine = RuleEngine(
-            rules=[
-                PR001(),
-            ]
+            rules=get_prompt_rules()
         )
 
         result = ScanResult()
