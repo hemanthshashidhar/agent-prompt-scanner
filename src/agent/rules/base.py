@@ -10,5 +10,5 @@ class BaseRule(ABC):
     title: str
 
     @abstractmethod
-    def check(self, prompt: Prompt) -> Finding | None:
+    def check(self, prompt: Prompt) -> list[Finding]:
         pass
