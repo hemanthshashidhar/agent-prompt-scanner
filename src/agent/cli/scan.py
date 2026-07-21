@@ -5,6 +5,7 @@ from rich import print
 
 from agent.core.project_loader import ProjectLoader
 from agent.scanner.prompt import PromptScanner
+from agent.report.renderer import ReportRenderer
 
 app = typer.Typer()
 
@@ -22,7 +23,8 @@ def scan(path: str = typer.Argument(..., help="Path to project")):
     project_path: Path = loader.root()
 
     scanner = PromptScanner()
-    result = scanner.scan(project_path)
+    renderer = ReportRenderer()
+    renderer.render(result)
 
     print()
     print("[bold cyan]Agent Verify[/bold cyan]")
