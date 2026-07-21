@@ -5,7 +5,6 @@ from agent.rules.base import BaseRule
 
 
 class PR002(BaseRule):
-
     id = "PR002"
     title = "Prompt Role Override"
 
@@ -17,19 +16,22 @@ class PR002(BaseRule):
         "new instructions",
     ]
 
-    def check(self, prompt: Prompt) -> Finding | None:
+    def check(self, prompt: Prompt) -> list[Finding]:
+        findings: list[Finding] = []
 
         content = prompt.content.lower()
 
         for pattern in self.PATTERNS:
             if pattern in content:
-                return Finding(
-                    id=self.id,
-                    title=self.title,
-                    severity=Severity.MEDIUM,
-                    description=f'Found "{pattern}"',
-                    recommendation="Review the prompt for role or instruction override attempts.",
-                    file=prompt.source,
+                findings.append(
+                    Finding(
+                        id=self.id,
+                        title=self.title,
+                        severity=Severity.MEDIUM,
+                        description=f'Found "{pattern}"',
+                        recommendation="Review the prompt for role or instruction override attempts.",
+                        file=prompt.source,
+                    )
                 )
 
-        return None
+        return findings
