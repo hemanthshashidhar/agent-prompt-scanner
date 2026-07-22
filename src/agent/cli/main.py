@@ -1,5 +1,5 @@
 import typer 
-
+ 
 from agent.cli.scan import app as scan_app
 
 app = typer.Typer(
